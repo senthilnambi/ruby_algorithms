@@ -20,12 +20,11 @@ describe 'LinkedList' do
   end
 
   it 'yields each node' do
-    arr = []
-    subject.each_node do |x|
-      arr << x.data
-    end
-
-    arr.should == ['tail', 'two', 'one', 'head']
+    [].tap do |arr|
+      subject.each_node do |x|
+        arr << x.data
+      end
+    end.should == ['tail', 'two', 'one', 'head']
   end
 
   it 'returns count' do
@@ -90,12 +89,11 @@ describe 'LinkedList' do
   end
 
   it 'yield data in each node' do
-    arr = []
-    subject.each do |x|
-      arr << x
-    end
-
-    arr.should == ['tail', 'two', 'one', 'head']
+    [].tap do |arr|
+      subject.each do |x|
+        arr << x
+      end
+    end.should == ['tail', 'two', 'one', 'head']
   end
 
   it 'pushes to the end' do
@@ -125,12 +123,11 @@ describe 'LinkedList' do
   end
 
   it 'yields data with self increasing index' do
-    arr = []
-    subject.with_index do |data, index|
-      arr << [data, index]
-    end
-
-    arr.should == [["tail", 0], ["two", 1], ["one", 2], ["head", 3]]
+    [].tap do |arr|
+      subject.with_index do |data, index|
+        arr << [data, index]
+      end
+    end.should == [["tail", 0], ["two", 1], ["one", 2], ["head", 3]]
   end
 
   it 'finds data which match a single argument' do

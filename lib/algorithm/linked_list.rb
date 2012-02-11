@@ -173,11 +173,11 @@ module Algorithm
     #   #=> [4, 4]
     #
     def map
-      arr = []
-
-      each { |data| arr << yield(data) }
-
-      arr
+      [].tap do |arr|
+        each do |data|
+          arr << yield(data)
+        end
+      end
     end
 
     # Selects data which return true for block passed in.
@@ -189,11 +189,11 @@ module Algorithm
     #   #=> ['head']
     #
     def select
-      arr = []
-
-      each { |data| arr << data if yield(data) }
-
-      arr
+      [].tap do |arr|
+        each do |data|
+          arr << data if yield(data)
+        end
+      end
     end
 
     # Yields each node with a self incrementing index, starting at 0.
