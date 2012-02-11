@@ -2,6 +2,11 @@
 
 'Mastering Algorithms with C' by Kyle Loudon ported to Ruby.
 
+# Implemented
+
+  1. LinkedList
+    1. Single
+
 ## Source
 
 Algorithm's git repo is available on GitHub:
