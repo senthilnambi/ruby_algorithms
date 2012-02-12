@@ -1,8 +1,8 @@
 require 'spec_helper'
 require 'algorithm/linked_list'
 
-describe 'LinkedList' do
-  subject { Algorithm::LinkedList.new }
+describe Algorithm::SingleLinkedList do
+  subject { described_class.new }
 
   before do
     subject << 'head'
@@ -67,7 +67,7 @@ describe 'LinkedList' do
   end
 
   it 'deletes all occurances when they occur near head' do
-    list = Algorithm::LinkedList.new
+    list = described_class.new
     list << 'head'
     list << 'head'
     list.delete('head')
@@ -75,7 +75,7 @@ describe 'LinkedList' do
   end
 
   it 'deletes two heads' do
-    list = Algorithm::LinkedList.new
+    list = described_class.new
     list << 'head'
     list << 'head'
     list << 'tail'
@@ -149,15 +149,17 @@ describe 'LinkedList' do
   end
 end
 
-describe 'Node' do
-  subject { Algorithm::Node.new('head', nil) }
+describe Algorithm::SingleNode do
+  subject do
+    described_class.new('head', nil)
+  end
 
   it 'returns true if no link to another node' do
     subject.head?.should == true
   end
 
   it 'return false if link to another node' do
-    node = Algorithm::Node.new('tail', subject)
+    node = described_class.new('tail', subject)
     node.head?.should == false
   end
 end

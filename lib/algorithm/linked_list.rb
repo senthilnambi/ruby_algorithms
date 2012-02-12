@@ -5,7 +5,7 @@ module Algorithm
   #
   # For more info see: https://en.wikipedia.org/wiki/Linked_list
   #
-  class LinkedList
+  class SingleLinkedList
     attr_reader :head, :tail, :size
 
     def initialize
@@ -24,7 +24,7 @@ module Algorithm
     #   linked_list << 'tail'
     #
     def <<(data)
-      @tail = Node.new(data, @tail)
+      @tail = SingleNode.new(data, @tail)
       @head ||= @tail
       @size += 1
 
@@ -219,7 +219,7 @@ module Algorithm
     end
   end
 
-  class Node
+  class SingleNode
     attr_accessor :data, :previous
 
     def initialize(data, node=nil)
