@@ -19,18 +19,6 @@ describe Algorithm::DoubleLinkedList do
     subject.tail.data.should == 'tail'
   end
 
-  it 'yields each node' do
-    [].tap do |arr|
-      subject.each_node do |x|
-        arr << x.data
-      end
-    end.should == ['tail', 'two', 'one', 'head']
-  end
-
-  it 'returns count' do
-    subject.count.should == 4
-  end
-
   it do
     subject.previous.data.should == 'two'
   end
@@ -41,5 +29,21 @@ describe Algorithm::DoubleLinkedList do
 
   it do
     subject.tail.tail.data.should == 'two'
+  end
+end
+
+describe Algorithm::DoubleNode do
+  subject do
+    described_class.new(:data => 'head')
+  end
+
+  it 'returns true if no link to another node' do
+    subject.head?.should == true
+  end
+
+  it 'return false if link to another node' do
+    node = described_class.new(:data => 'tail', :tail => subject,
+                               :head => subject)
+    node.head?.should == false
   end
 end
