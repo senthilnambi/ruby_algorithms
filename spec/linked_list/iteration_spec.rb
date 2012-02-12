@@ -2,6 +2,8 @@ require 'spec_helper'
 require 'algorithm/linked_list/single_linked_list'
 
 describe Algorithm::Iteration do
+
+  # works with Algorithm::DoubleLinkedList as well
   subject { Algorithm::SingleLinkedList.new }
 
   before do
