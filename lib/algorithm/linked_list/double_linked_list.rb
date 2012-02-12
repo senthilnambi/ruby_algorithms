@@ -74,7 +74,7 @@ module Algorithm
     end
 
     def previous
-      @tail.tail
+      @tail.head
     end
 
     def empty?

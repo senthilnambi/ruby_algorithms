@@ -180,6 +180,10 @@ describe Algorithm::DoubleLinkedList do
       subject.tail.head.data.should == 'four'
     end
 
+    it 'previous' do
+      subject.previous.data.should == 'four'
+    end
+
     it 'traverses all the way to head' do
       subject.tail.head.head.data.should           == 'three'
       subject.tail.head.head.head.data.should      == 'two'
