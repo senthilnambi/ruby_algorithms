@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'algorithm/single_linked_list'
+require 'algorithm/linked_list/single_linked_list'
 
 describe Algorithm::SingleLinkedList do
   subject { described_class.new }
