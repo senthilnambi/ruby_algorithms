@@ -3,6 +3,9 @@ module Algorithm
   # grouped/linked together. Similar to Array, but faster insertion
   # and deletions of nodes.
   #
+  # SingleLinkedList is a type of LinkedList where each nodes have link
+  # to previous node.
+  #
   # For more info see: https://en.wikipedia.org/wiki/Linked_list
   #
   class SingleLinkedList
