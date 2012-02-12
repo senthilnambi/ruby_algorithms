@@ -48,8 +48,7 @@ end
 
 desc "Generate SimpleCov test coverage and open in your browser"
 task :coverage do
-  sh "rm -fr coverage"
-  sh "ruby -e \"require 'simplecov'\; SimpleCov.start\" "
+  sh "rake spec COVERAGE=true"
   sh "open coverage/index.html"
 end
 
