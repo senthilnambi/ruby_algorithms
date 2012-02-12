@@ -69,6 +69,26 @@ module Algorithm
       end
     end
 
+    def insert_after(data, cursor=nil)
+      unless cursor
+        # add to end of list
+        push(data)
+        return
+      end
+
+      node = DoubleNode.new(:data => data)
+      tail = cursor.tail
+
+      # cursor -> tail
+      # cursor -> node -> tail
+      cursor.tail = node
+      node.head   = cursor
+      node.tail   = tail
+      tail.head   = node
+
+      @size += 1
+    end
+
     def previous
       @tail.head
     end

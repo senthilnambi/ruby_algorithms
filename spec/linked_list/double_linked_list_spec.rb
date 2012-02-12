@@ -4,6 +4,10 @@ require 'algorithm/linked_list/double_linked_list'
 describe Algorithm::DoubleLinkedList do
   subject { described_class.new }
 
+  let(:double_node_const) do
+    Algorithm::DoubleNode
+  end
+
   context 'zero nodes' do
     it 'head is nil' do
       subject.head.should == nil
@@ -27,6 +31,12 @@ describe Algorithm::DoubleLinkedList do
 
     it 'empty is true' do
       subject.empty?.should == true
+    end
+
+    it 'insert_after adds to end of list' do
+      subject.insert_after('two.five')
+      subject.head.data.should == 'two.five'
+      subject.tail.data.should == 'two.five'
     end
   end
 
@@ -57,6 +67,11 @@ describe Algorithm::DoubleLinkedList do
 
     it 'empty is false' do
       subject.empty?.should == false
+    end
+
+    it 'insert_after adds to end of list' do
+      subject.insert_after('two.five')
+      subject.tail.data.should == 'two.five'
     end
 
     context '#pop' do
@@ -192,6 +207,48 @@ describe Algorithm::DoubleLinkedList do
 
     it 'pop returns data' do
       subject.pop.should == 'five'
+    end
+
+    context '#insert_after' do
+      let(:cursor) do
+        subject.head.tail
+      end
+
+      let(:inserted_node) do
+        cursor.tail
+      end
+
+      before do
+        subject.insert_after('two.five', cursor)
+      end
+
+      it 'count is 6' do
+        subject.count.should == 6
+      end
+
+      it 'size is 6' do
+        subject.size.should == 6
+      end
+
+      it 'tail of cursor returns inserted node' do
+        cursor.tail.data.should == 'two.five'
+      end
+
+      it 'head of cursor is not affected' do
+        cursor.head.data.should == 'one'
+      end
+
+      it 'sets head of inserted node to cursor' do
+        inserted_node.head.data.should == 'two'
+      end
+
+      it 'sets tail to inserted node to old tail of cursor' do
+        inserted_node.tail.data.should == 'three'
+      end
+
+      it 'sets old cursor tail head to node' do
+        inserted_node.tail.head.data.should == 'two.five'
+      end
     end
 
     context '#pop' do
