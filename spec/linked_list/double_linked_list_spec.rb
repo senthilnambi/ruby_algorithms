@@ -35,7 +35,11 @@ describe Algorithm::DoubleLinkedList do
 
     it 'insert_after adds to end of list' do
       subject.insert_after('two.five')
-      subject.head.data.should == 'two.five'
+      subject.tail.data.should == 'two.five'
+    end
+
+    it 'insert_before adds to end of list' do
+      subject.insert_before('two.five')
       subject.tail.data.should == 'two.five'
     end
   end
@@ -71,6 +75,11 @@ describe Algorithm::DoubleLinkedList do
 
     it 'insert_after adds to end of list' do
       subject.insert_after('two.five')
+      subject.tail.data.should == 'two.five'
+    end
+
+    it 'insert_before adds to end of list' do
+      subject.insert_before('two.five')
       subject.tail.data.should == 'two.five'
     end
 
@@ -248,6 +257,48 @@ describe Algorithm::DoubleLinkedList do
 
       it 'sets old cursor tail head to node' do
         inserted_node.tail.head.data.should == 'two.five'
+      end
+    end
+
+    context '#insert_before' do
+      let(:cursor) do
+        subject.tail.head.head
+      end
+
+      let(:inserted_node) do
+        cursor.head
+      end
+
+      before do
+        subject.insert_before('two.five', cursor)
+      end
+
+      it 'count is 6' do
+        subject.count.should == 6
+      end
+
+      it 'size is 6' do
+        subject.size.should == 6
+      end
+
+      it 'head of cursor returns inserted node' do
+        cursor.head.data.should == 'two.five'
+      end
+
+      it 'tail of cursor is not affected' do
+        cursor.tail.data.should == 'four'
+      end
+
+      it 'sets head of inserted node to cursor' do
+        inserted_node.head.data.should == 'two'
+      end
+
+      it 'sets tail to inserted node to old tail of cursor' do
+        inserted_node.tail.data.should == 'three'
+      end
+
+      it 'sets old cursor head tail to node' do
+        inserted_node.head.tail.data.should == 'two.five'
       end
     end
 

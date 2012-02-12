@@ -70,23 +70,29 @@ module Algorithm
     end
 
     def insert_after(data, cursor=nil)
-      unless cursor
-        # add to end of list
-        push(data)
-        return
+      insert_wrapper(data, cursor) do |node|
+        tail = cursor.tail
+
+        # cursor -> tail
+        # cursor -> node -> tail
+        cursor.tail = node
+        node.head   = cursor
+        node.tail   = tail
+        tail.head   = node
       end
+    end
 
-      node = DoubleNode.new(:data => data)
-      tail = cursor.tail
+    def insert_before(data, cursor=nil)
+      insert_wrapper(data, cursor) do |node|
+        head = cursor.head
 
-      # cursor -> tail
-      # cursor -> node -> tail
-      cursor.tail = node
-      node.head   = cursor
-      node.tail   = tail
-      tail.head   = node
-
-      @size += 1
+        # head -> cursor
+        # head -> node -> cursor
+        head.tail   = node
+        node.head   = head
+        node.tail   = cursor
+        cursor.head = node
+      end
     end
 
     def previous
@@ -95,6 +101,21 @@ module Algorithm
 
     def empty?
       !@head && !@tail
+    end
+
+    private
+
+    def insert_wrapper(data, cursor)
+      unless cursor
+        # add to end of list
+        push(data)
+        return
+      end
+
+      node = DoubleNode.new(:data => data)
+      yield node
+
+      @size += 1
     end
   end
 
