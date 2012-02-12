@@ -6,6 +6,7 @@
 
   1. LinkedList
     1. Single
+    1. Double
 
 ## Source
 
