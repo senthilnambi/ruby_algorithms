@@ -216,6 +216,11 @@ describe Algorithm::DoubleLinkedList do
       end
     end
   end
+
+  it 'push is aliased to <<' do
+    subject.push('one')
+    subject.count.should == 1
+  end
 end
 
 describe Algorithm::DoubleNode do

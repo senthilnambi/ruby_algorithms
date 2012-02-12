@@ -24,18 +24,13 @@ module Algorithm
 
       @size += 1
 
-      # list has head & tail, add to last
-      if @head && @tail
+      # list has nodes, add this to last
+      if @tail
         @tail.tail = node
         node.head  = tail
 
-      # list has one node, add second node
-      elsif @head && @head.tail.nil?
-        @head.tail = node
-        node.head  = head
-
       # list empty, add first node
-      elsif @tail.nil? && @head.nil?
+      else
         @head = node
       end
 
@@ -43,6 +38,7 @@ module Algorithm
 
       self
     end
+    alias :push :<<
 
     def pop
       if @head && @tail
