@@ -95,6 +95,22 @@ module Algorithm
       end
     end
 
+    def insert_at(data, cursor=nil)
+      insert_wrapper(data, cursor) do |node|
+        head = cursor.head
+        tail = cursor.tail
+
+        # head -> cursor -> tail
+        # head -> node -> tail
+        head.tail = node
+        node.tail = cursor.tail
+        tail.head = node
+        node.head = head
+
+        @size -= 1
+      end
+    end
+
     def previous
       @tail.head
     end
