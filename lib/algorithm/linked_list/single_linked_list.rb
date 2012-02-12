@@ -42,7 +42,7 @@ module Algorithm
     # Removes the last node.
     def pop
       popped = @tail
-      @tail  = @tail.tail # remove tail
+      @tail  = @tail.head # remove tail
       @size -= 1
 
       popped.data
@@ -62,7 +62,7 @@ module Algorithm
       #
       while @tail
         if @tail.data == data
-          @tail = @tail.tail
+          @tail = @tail.head
           @size -= 1
           deleted = true
         else
@@ -81,7 +81,7 @@ module Algorithm
         # node with the data, which was deleted.
         #
         if current.data == data
-          holder.tail = current.tail # remove node
+          holder.head = current.head # remove node
           @size -= 1
           deleted = true
         else
@@ -90,27 +90,27 @@ module Algorithm
         end
 
         # move cursor one to the right
-        current = current.tail
+        current = current.head
       end
 
       data if deleted
     end
 
     def previous
-      @tail.tail.data
+      @tail.head.data
     end
   end
 
   class SingleNode
-    attr_accessor :data, :tail
+    attr_accessor :data, :head
 
     def initialize(data, node=nil)
       @data = data
-      @tail = node
+      @head = node
     end
 
     def head?
-      @tail.nil?
+      @head.nil?
     end
   end
 end

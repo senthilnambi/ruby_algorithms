@@ -55,7 +55,7 @@ module Algorithm
 
       while current_node
         yield current_node
-        current_node = current_node.tail
+        current_node = current_node.head
       end
     end
 
