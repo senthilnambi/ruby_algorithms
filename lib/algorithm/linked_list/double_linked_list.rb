@@ -23,12 +23,10 @@ module Algorithm
     def <<(data)
       node = DoubleNode.new(:data => data)
 
-      @size += 1
-
       # list has nodes, add this to last
       if @tail
         @tail.tail = node
-        node.head  = tail
+        node.head  = @tail
 
       # list empty, add first node
       else
@@ -36,7 +34,8 @@ module Algorithm
       end
 
       # node always added to end of list
-      @tail = node
+      @tail  = node
+      @size += 1
 
       self
     end
