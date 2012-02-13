@@ -43,28 +43,15 @@ module Algorithm
     alias :push :<<
 
     def pop
-      if @head && @tail
+      return nil unless @head && @tail
 
-        # list has multiple nodes
-        unless @head == @tail
-          popped     = @tail
-          @tail      = @tail.head
-          @tail.tail = nil
-        else
-          # list has only node
-          popped = @head
+      old_data   = @tail.data
+      @tail      = @tail.head
+      @head.tail = @tail
 
-          @head  = nil
-          @tail  = nil
-        end
+      @size -= 1
 
-        @size     -= 1
-        return popped.data
-      else
-
-        # list has no nodes
-        return nil
-      end
+      old_data
     end
 
     def empty?
