@@ -34,18 +34,18 @@ describe Algorithm::DoubleLinkedList do
     end
 
     it 'insert_after adds to end of list' do
-      subject.insert_after('two.five')
-      subject.tail.data.should == 'two.five'
+      subject.insert_after('last')
+      subject.tail.data.should == 'last'
     end
 
     it 'insert_before adds to end of list' do
-      subject.insert_before('two.five')
-      subject.tail.data.should == 'two.five'
+      subject.insert_before('last')
+      subject.tail.data.should == 'last'
     end
 
     it 'insert_at! adds to end of list' do
-      subject.insert_at!('two.five')
-      subject.tail.data.should == 'two.five'
+      subject.insert_at!('last')
+      subject.tail.data.should == 'last'
     end
   end
 
@@ -79,18 +79,18 @@ describe Algorithm::DoubleLinkedList do
     end
 
     it 'insert_after adds to end of list' do
-      subject.insert_after('two.five')
-      subject.tail.data.should == 'two.five'
+      subject.insert_after('tail')
+      subject.tail.data.should == 'tail'
     end
 
     it 'insert_before adds to end of list' do
-      subject.insert_before('two.five')
-      subject.tail.data.should == 'two.five'
+      subject.insert_before('head')
+      subject.tail.data.should == 'head'
     end
 
     it 'insert_at! adds to end of list' do
-      subject.insert_at!('two.five')
-      subject.tail.data.should == 'two.five'
+      subject.insert_at!('tail')
+      subject.tail.data.should == 'tail'
     end
 
     context '#pop' do
@@ -249,24 +249,9 @@ describe Algorithm::DoubleLinkedList do
         subject.size.should == 6
       end
 
-      it 'tail of cursor returns inserted node' do
-        cursor.tail.data.should == 'two.five'
-      end
-
-      it 'head of cursor is not affected' do
-        cursor.head.data.should == 'one'
-      end
-
-      it 'sets head of inserted node to cursor' do
-        inserted_node.head.data.should == 'two'
-      end
-
-      it 'sets tail to inserted node to old tail of cursor' do
-        inserted_node.tail.data.should == 'three'
-      end
-
-      it 'sets old cursor tail head to node' do
-        inserted_node.tail.head.data.should == 'two.five'
+      it 'in the right position' do
+        arr = ['five', 'four', 'three', 'two.five', 'two', 'one']
+        subject.to_a.should == arr
       end
     end
 
@@ -291,24 +276,9 @@ describe Algorithm::DoubleLinkedList do
         subject.size.should == 6
       end
 
-      it 'head of cursor returns inserted node' do
-        cursor.head.data.should == 'two.five'
-      end
-
-      it 'tail of cursor is not affected' do
-        cursor.tail.data.should == 'four'
-      end
-
-      it 'sets head of inserted node to cursor' do
-        inserted_node.head.data.should == 'two'
-      end
-
-      it 'sets tail to inserted node to old tail of cursor' do
-        inserted_node.tail.data.should == 'three'
-      end
-
-      it 'sets old cursor head tail to node' do
-        inserted_node.head.tail.data.should == 'two.five'
+      it 'in the right position' do
+        arr = ['five', 'four', 'three', 'two.five', 'two', 'one']
+        subject.to_a.should == arr
       end
     end
 
@@ -333,7 +303,7 @@ describe Algorithm::DoubleLinkedList do
         subject.size.should == 6
       end
 
-      it do
+      it 'in the right position' do
         arr = ['five', 'four', 'three', 'two.five', 'two', 'one']
         subject.to_a.should == arr
       end
@@ -360,20 +330,9 @@ describe Algorithm::DoubleLinkedList do
         subject.size.should == 5
       end
 
-      it 'sets head of inserted node' do
-        inserted_node.head.data.should == 'one'
-      end
-
-      it 'sets tail to inserted node' do
-        inserted_node.tail.data.should == 'three'
-      end
-
-      it 'sets old cursors tail head to node' do
-        inserted_node.tail.head.data.should == 'new two'
-      end
-
-      it 'sets old cursors head tail to node' do
-        inserted_node.head.tail.data.should == 'new two'
+      it 'in the right position' do
+        arr = ['five', 'four', 'three', 'new two', 'one']
+        subject.to_a.should == arr
       end
     end
 
