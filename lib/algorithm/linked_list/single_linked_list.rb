@@ -1,4 +1,5 @@
 require_relative 'iteration'
+require_relative 'node'
 
 module Algorithm
   # LinkedList is a simple data structure where the nodes/elements are
@@ -101,16 +102,12 @@ module Algorithm
     end
   end
 
-  class SingleNode
+  class SingleNode < Node
     attr_accessor :data, :head
 
     def initialize(data, node=nil)
       @data = data
       @head = node
-    end
-
-    def head?
-      @head.nil?
     end
   end
 end
