@@ -19,7 +19,6 @@ describe Algorithm::DoubleLinkedList do
   end
 
   let(:two_nodes) do
-    list = described_class.new
     list << 'one'
     list << 'two'
   end
@@ -30,6 +29,10 @@ describe Algorithm::DoubleLinkedList do
     list << 'three'
     list << 'four'
     list << 'five'
+  end
+
+  let(:multiple_node_array) do
+    ['five', 'four', 'three', 'two', 'one']
   end
 
   context '#<<' do
@@ -157,18 +160,19 @@ describe Algorithm::DoubleLinkedList do
     end
 
     it 'inserts in the right position' do
-      arr = ['five', 'four', 'three', 'two', 'two.five', 'one']
+      arr = ['five', 'four', 'three', 'new two', 'two', 'one']
 
-      multiple_nodes.insert_before('two.five', 'two')
+      multiple_nodes.insert_before('new two', 'three')
       multiple_nodes.to_a.should == arr
     end
 
     it 'does nothing if position is not found' do
-      # use let for these arr
-      arr = ['five', 'four', 'three', 'two', 'one']
-
       multiple_nodes.insert_before('new one', 'imaginary')
-      multiple_nodes.to_a.should ==  arr
+      multiple_nodes.to_a.should ==  multiple_node_array
+    end
+
+    it 'returns nil if position not found' do
+      multiple_nodes.insert_before('new two', 'imaginary').should == nil
     end
 
     it 'inserts before head' do
@@ -204,18 +208,19 @@ describe Algorithm::DoubleLinkedList do
     end
 
     it 'inserts in the right position' do
-      arr = ['five', 'four', 'three', 'two', 'two.five', 'one']
+      arr = ['five', 'four', 'three', 'new two', 'two', 'one']
 
-      multiple_nodes.insert_after('two.five', 'one')
+      multiple_nodes.insert_after('new two', 'two')
       multiple_nodes.to_a.should == arr
     end
 
     it 'does nothing if position is not found' do
-      # use let for these arr
-      arr = ['five', 'four', 'three', 'two', 'one']
+      multiple_nodes.insert_after('new two', 'imaginary')
+      multiple_nodes.to_a.should == multiple_node_array
+    end
 
-      multiple_nodes.insert_after('two.five', 'imaginary')
-      multiple_nodes.to_a.should ==  arr
+    it 'returns nil if position not found' do
+      multiple_nodes.insert_after('new two', 'imaginary').should == nil
     end
 
     it 'inserts at tail' do
@@ -247,11 +252,12 @@ describe Algorithm::DoubleLinkedList do
     end
 
     it 'does nothing if position is not found' do
-      # use let for these arr
-      arr = ['five', 'four', 'three', 'two', 'one']
+      multiple_nodes.replace('new two', 'imaginary')
+      multiple_nodes.to_a.should == multiple_node_array
+    end
 
-      multiple_nodes.replace('two.five', 'imaginary')
-      multiple_nodes.to_a.should ==  arr
+    it 'returns nil if position not found' do
+      multiple_nodes.replace('new two', 'imaginary').should == nil
     end
 
     it 'replace in the right position' do
