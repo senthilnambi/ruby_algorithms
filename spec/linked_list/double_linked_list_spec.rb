@@ -2,366 +2,137 @@ require 'spec_helper'
 require 'algorithm/linked_list/double_linked_list'
 
 describe Algorithm::DoubleLinkedList do
-  subject { described_class.new }
+  let(:list) do
+    described_class.new
+  end
 
   let(:double_node_const) do
     Algorithm::DoubleNode
   end
 
-  context 'zero nodes' do
-    it 'head is nil' do
-      subject.head.should == nil
+  let(:zero_node) do
+    list
+  end
+
+  let(:one_node) do
+    list << 'one'
+  end
+
+  let(:multiple_nodes) do
+    list << 'one'
+    list << 'two'
+    list << 'three'
+    list << 'four'
+    list << 'five'
+  end
+
+  context '#<<' do
+    it 'adds to end in empty list' do
+      zero_node.push('one')
+      zero_node.to_a.should == ['one']
     end
 
-    it 'tail is nil' do
-      subject.tail.should == nil
+    it 'adds to end in any list' do
+      one_node.push('two')
+      one_node.to_a.should == ['two', 'one']
     end
 
-    it 'size is 0' do
-      subject.size.should == 0
+    it 'aliased to #push' do
+      zero_node.push('one')
+      zero_node.to_a.should == ['one']
     end
 
-    it 'count is 0' do
-      subject.count.should == 0
-    end
-
-    it 'pops nothing' do
-      subject.pop.should == nil
-    end
-
-    it 'empty is true' do
-      subject.empty?.should == true
-    end
-
-    it 'insert_after adds to end of list' do
-      subject.insert_after('last')
-      subject.tail.data.should == 'last'
-    end
-
-    it 'insert_before adds to end of list' do
-      subject.insert_before('last')
-      subject.tail.data.should == 'last'
-    end
-
-    it 'insert_at! adds to end of list' do
-      subject.insert_at!('last')
-      subject.tail.data.should == 'last'
+    it 'returns self' do
+      multiple_nodes.push('six').should == multiple_nodes
     end
   end
 
-  context 'one node' do
-    before do
-      subject << 'one'
+  context '#pop'do
+    it 'empty list returns nil' do
+      zero_node.pop.should == nil
     end
 
-    it 'head points to first node added' do
-      subject.head.data.should == 'one'
+    it 'decrements @size' do
+      one_node.pop
+      one_node.size.should == 0
     end
 
-    it 'tail points to one nodel added' do
-      subject.tail.data.should == 'one'
+    it 'returns data of item popped' do
+      multiple_nodes.pop.should == 'five'
     end
 
-    it 'size is 1' do
-      subject.size.should == 1
-    end
-
-    it 'count is 1' do
-      subject.count.should == 1
-    end
-
-    it 'pop returns data' do
-      subject.pop.should == 'one'
-    end
-
-    it 'empty is false' do
-      subject.empty?.should == false
-    end
-
-    it 'insert_after adds to end of list' do
-      subject.insert_after('tail')
-      subject.tail.data.should == 'tail'
-    end
-
-    it 'insert_before adds to end of list' do
-      subject.insert_before('head')
-      subject.tail.data.should == 'head'
-    end
-
-    it 'insert_at! adds to end of list' do
-      subject.insert_at!('tail')
-      subject.tail.data.should == 'tail'
-    end
-
-    context '#pop' do
-      before do
-        subject.pop
-      end
-
-      it 'tail is nil' do
-        subject.tail.should == nil
-      end
-
-      it 'head is nil' do
-        subject.head.should == nil
-      end
-
-      it 'size is 0' do
-        subject.size.should == 0
-      end
-
-      it 'count is 0' do
-        subject.count.should == 0
-      end
-
-      it 'empty is false' do
-        subject.empty?.should == true
-      end
+    it 'removes node from list' do
+      multiple_nodes.pop
+      multiple_nodes.to_a.should == ['four', 'three', 'two', 'one']
     end
   end
 
-  context 'two nodes' do
-    before do
-      subject << 'one'
-      subject << 'two'
+  context '#empty?' do
+    it 'returns true for empty list' do
+      zero_node.empty?.should == true
     end
 
-    it 'head points to first node added' do
-      subject.head.data.should == 'one'
-    end
-
-    it 'tail points to last node added' do
-      subject.tail.data.should == 'two'
-    end
-
-    it 'size is 2' do
-      subject.size.should == 2
-    end
-
-    it 'head has no other heads' do
-      subject.head.head.should == nil
-    end
-
-    it 'head has one tail' do
-      subject.head.tail.data.should == 'two'
-    end
-
-    it 'tail has no other tails' do
-      subject.tail.tail.should == nil
-    end
-
-    it 'tail has one head' do
-      subject.tail.head.data.should == 'one'
-    end
-
-    it 'pop returns data' do
-      subject.pop.should == 'two'
-    end
-
-    context '#pop' do
-      before do
-        subject.pop
-      end
-
-      it 'moves tail to one before popped node' do
-        subject.tail.data.should == 'one'
-      end
-
-      it 'head remains the same' do
-        subject.head.data.should == 'one'
-      end
-
-      it 'size is 1' do
-        subject.size.should == 1
-      end
+    it 'returns false for full list' do
+      one_node.empty?.should == false
     end
   end
 
-  context 'multiple nodes' do
-    before do
-      subject << 'one'
-      subject << 'two'
-      subject << 'three'
-      subject << 'four'
-      subject << 'five'
+  context '#size' do
+    it 'is set to 0 at #initialize' do
+      zero_node.size.should == 0
     end
 
-    it 'head points to first node added' do
-      subject.head.data.should == 'one'
+    it 'returns @size' do
+      multiple_nodes.size.should == 5
+    end
+  end
+
+  context '#count' do
+    it 'goes through #each_node and counts them' do
+      multiple_nodes.count.should == 5
+    end
+  end
+
+  context '#head' do
+    it 'nil for empty list' do
+      zero_node.head.should == nil
     end
 
-    it 'tail points to last node added' do
-      subject.tail.data.should == 'five'
+    it 'first added node for single node list' do
+      one_node.head.data.should == 'one'
     end
 
-    it 'size is 5' do
-      subject.size.should == 5
+    it 'first added node for any list' do
+      multiple_nodes.head.data.should == 'one'
     end
 
-    it 'head has no other heads' do
-      subject.head.head.should == nil
+    it 'has no other heads' do
+      multiple_nodes.head.head.should == nil
+    end
+  end
+
+  context '#tail' do
+    it 'nil for empty list' do
+      zero_node.tail.should == nil
     end
 
-    it 'head has one tail' do
-      subject.head.tail.data.should == 'two'
+    it 'last added node for single node list' do
+      one_node.tail.data.should == 'one'
     end
 
-    it 'tail has no other tails' do
-      subject.tail.tail.should == nil
+    it 'last added node for any list' do
+      multiple_nodes.tail.data.should == 'five'
     end
 
-    it 'tail has one head' do
-      subject.tail.head.data.should == 'four'
-    end
-
-    it 'previous' do
-      subject.previous.data.should == 'four'
+    it 'has no other tails' do
+      multiple_nodes.tail.tail.should == nil
     end
 
     it 'traverses all the way to head' do
-      subject.tail.head.head.data.should           == 'three'
-      subject.tail.head.head.head.data.should      == 'two'
-      subject.tail.head.head.head.head.data.should == 'one'
+      multiple_nodes.tail.head.head.data.should           == 'three'
+      multiple_nodes.tail.head.head.head.data.should      == 'two'
+      multiple_nodes.tail.head.head.head.head.data.should == 'one'
     end
-
-    it 'pop returns data' do
-      subject.pop.should == 'five'
-    end
-
-    context '#insert_after' do
-      let(:cursor) do
-        subject.head.tail
-      end
-
-      let(:inserted_node) do
-        cursor.tail
-      end
-
-      before do
-        subject.insert_after('two.five', cursor)
-      end
-
-      it 'count is 6' do
-        subject.count.should == 6
-      end
-
-      it 'size is 6' do
-        subject.size.should == 6
-      end
-
-      it 'in the right position' do
-        arr = ['five', 'four', 'three', 'two.five', 'two', 'one']
-        subject.to_a.should == arr
-      end
-    end
-
-    context '#insert_before' do
-      let(:cursor) do
-        subject.tail.head.head
-      end
-
-      let(:inserted_node) do
-        cursor.head
-      end
-
-      before do
-        subject.insert_before('two.five', cursor)
-      end
-
-      it 'count is 6' do
-        subject.count.should == 6
-      end
-
-      it 'size is 6' do
-        subject.size.should == 6
-      end
-
-      it 'in the right position' do
-        arr = ['five', 'four', 'three', 'two.five', 'two', 'one']
-        subject.to_a.should == arr
-      end
-    end
-
-    context '#insert_at' do
-      let(:cursor) do
-        subject.head.tail.tail
-      end
-
-      let(:inserted_node) do
-        subject.head.tail.tail.tail
-      end
-
-      before do
-        subject.insert_at('two.five', cursor)
-      end
-
-      it 'count is 5' do
-        subject.count.should == 6
-      end
-
-      it 'size is 5' do
-        subject.size.should == 6
-      end
-
-      it 'in the right position' do
-        arr = ['five', 'four', 'three', 'two.five', 'two', 'one']
-        subject.to_a.should == arr
-      end
-    end
-
-    context '#insert_at!' do
-      let(:cursor) do
-        subject.tail.head.head.head
-      end
-
-      let(:inserted_node) do
-        subject.head.tail
-      end
-
-      before do
-        subject.insert_at!('new two', cursor)
-      end
-
-      it 'count is 5' do
-        subject.count.should == 5
-      end
-
-      it 'size is 5' do
-        subject.size.should == 5
-      end
-
-      it 'in the right position' do
-        arr = ['five', 'four', 'three', 'new two', 'one']
-        subject.to_a.should == arr
-      end
-    end
-
-    context '#pop' do
-      before do
-        subject.pop
-      end
-
-      it 'moves tail to one before popped node' do
-        subject.tail.data.should == 'four'
-      end
-
-      it 'new tail has no other tails' do
-        subject.tail.tail.should == nil
-      end
-
-      it 'head remains the same' do
-        subject.head.data.should == 'one'
-      end
-
-      it 'size is 4' do
-        subject.size.should == 4
-      end
-    end
-  end
-
-  it 'push is aliased to <<' do
-    subject.push('one')
-    subject.count.should == 1
   end
 end
 
@@ -370,13 +141,15 @@ describe Algorithm::DoubleNode do
     described_class.new(:data => 'head')
   end
 
-  it 'returns true if no link to another node' do
-    subject.head?.should == true
-  end
+  context '#head?' do
+    it 'returns true if no link to another node' do
+      subject.head?.should == true
+    end
 
-  it 'return false if link to another node' do
-    node = described_class.new(:data => 'tail', :tail => subject,
-                               :head => subject)
-    node.head?.should == false
+    it 'return false if link to another node' do
+      node = described_class.new(:data => 'tail', :tail => subject,
+                                 :head => subject)
+      node.head?.should == false
+    end
   end
 end
