@@ -96,10 +96,6 @@ module Algorithm
 
       data if deleted
     end
-
-    def previous
-      @tail.head.data
-    end
   end
 
   class SingleNode < Node

@@ -92,10 +92,6 @@ describe Algorithm::SingleLinkedList do
     subject.pop
     subject.count.should == 3
   end
-
-  it 'returns 2nd last data' do
-    subject.previous.should == 'two'
-  end
 end
 
 describe Algorithm::SingleNode do
