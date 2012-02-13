@@ -74,7 +74,7 @@ module Algorithm
     def replace(data, position_data)
       # TODO: DRY this
       position = select_node {|node_data| node_data == position_data}
-      return 'position not found' unless position && !position.empty?
+      return nil unless position && !position.empty?
 
       # TODO: change select to return nil or first node, not array
       position = position.first
@@ -113,7 +113,7 @@ module Algorithm
       end
 
       position = select_node {|node_data| node_data == position_data}
-      return 'position not found' unless position && !position.empty?
+      return nil unless position && !position.empty?
 
       # TODO: select_node returns array
       position = position.first

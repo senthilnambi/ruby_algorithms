@@ -171,11 +171,6 @@ describe Algorithm::DoubleLinkedList do
       multiple_nodes.to_a.should ==  arr
     end
 
-    it 'informs user position not found' do
-      multiple_nodes.insert_before('new one', 'imaginary').
-        should == 'position not found'
-    end
-
     it 'inserts before head' do
       arr = ['five', 'four', 'three', 'two', 'one', 'new one']
 
@@ -219,11 +214,6 @@ describe Algorithm::DoubleLinkedList do
       multiple_nodes.to_a.should ==  arr
     end
 
-    it 'informs user position not found' do
-      multiple_nodes.insert_after('two.five', 'imaginary').
-        should == 'position not found'
-    end
-
     it 'inserts at tail' do
       arr = ['new five', 'five', 'four', 'three', 'two', 'one']
 
@@ -254,11 +244,6 @@ describe Algorithm::DoubleLinkedList do
 
       multiple_nodes.replace('two.five', 'imaginary')
       multiple_nodes.to_a.should ==  arr
-    end
-
-    it 'informs user position not found' do
-      multiple_nodes.replace('two.five', 'imaginary').
-        should == 'position not found'
     end
 
     it 'replace in the right position' do
