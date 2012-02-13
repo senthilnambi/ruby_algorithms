@@ -43,12 +43,30 @@ require 'algorithm/linked_list'
       subject.map { |x| x}.should == reverse_array
     end
 
-    it 'selects data which return true for block' do
-      subject.select { |x| x == 'three'}.first.should == 'three'
+    it do
+      subject.select { |x| x == 'three'}.data.should == 'three'
     end
 
-    it 'selects node which return true for block' do
-      subject.select_node { |x| x == 'three'}.first.data.should == 'three'
+    it do
+      subject << 'three'
+      subject.select { |x| x == 'three'}.size.should == 2
+    end
+
+    it do
+      subject << 'three'
+      subject.select { |x| x == 'three'}.first.data.should == 'three'
+    end
+
+    it 'select_one returns nil if no result found' do
+      subject.select_one('imaginary').should == nil
+    end
+
+    it 'select_one returns nil if no result found (with block)' do
+      subject.select_one {|x| x == 'imaginary'}.should == nil
+    end
+
+    it 'select_one returns' do
+      subject.select_one { |x| x == 'three'}.data.should == 'three'
     end
 
     it 'returns data in an array' do
@@ -69,52 +87,6 @@ require 'algorithm/linked_list'
           arr << [data, index]
         end
       end.should == reverse_index_array
-    end
-
-    context '#find' do
-      it 'data which match a single argument' do
-        subject.find('one').should == 'one'
-      end
-
-      it 'data which match block' do
-        subject.find do |data|
-          data == 'one'
-        end.should == 'one'
-      end
-
-      it 'data which match block and returns array if more than one' do
-        subject << 'ones'
-
-        subject.find do |data|
-          data.include?('one')
-        end.should == ['ones', 'one']
-      end
-    end
-
-    context '#find_node' do
-      it 'returns Algorithm::Node subclass' do
-        subject.find_node('one').should be_a(Algorithm::Node)
-      end
-
-      it 'data which match a single argument' do
-        subject.find_node('one').data.should == 'one'
-      end
-
-      it 'data which match block' do
-        subject.find_node do |data|
-          data == 'one'
-        end.data.should == 'one'
-      end
-
-      it 'data which match block and returns array if more than one' do
-        subject << 'ones'
-
-        arr = subject.find_node do |data|
-          data.include?('one')
-        end
-
-        arr.collect(&:data).should == ['ones', 'one']
-      end
     end
   end
 end

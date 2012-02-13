@@ -1,60 +1,5 @@
 module Algorithm
   module Iteration
-
-    # Finds data which is exact match to argument or finds data
-    # which return true for block passed in.
-    #
-    # data - Object.
-    #
-    # Examples:
-    #
-    #   linked_list.find do |data|
-    #     data[0] == 'h'
-    #   end
-    #
-    #   #=> ['head']
-    #
-    #   linked_list.find('head')
-    #   #=> ['head]
-    #
-    # Returns Array for multiple results, data for single result.
-    #
-    def find(data=nil, &user_blk)
-      default_blk = proc {|node_data| node_data == data }
-      blk         = user_blk || default_blk
-
-      result = select(&blk)
-
-      result.size == 1 ? result.first : result
-    end
-
-    # Finds nodes whose data is exact match to argument or finds node
-    # which return true for block passed in.
-    #
-    # data - Object.
-    #
-    # Examples:
-    #
-    #   linked_list.find do |data|
-    #     data[0] == 'h'
-    #   end
-    #
-    #   #=> #<Algorithm::SingleNode:0x007fd51e07e680 @data="hours">
-    #
-    #   linked_list.find('head')
-    #   #=> #<Algorithm::SingleNode:0x007fd51e07e680 @data="hours">
-    #
-    # Returns Array for multiple results, data for single result.
-    #
-    def find_node(data=nil, &user_blk)
-      default_blk = proc {|node_data| node_data == data }
-      blk         = user_blk || default_blk
-
-      result = select_node(&blk)
-
-      result.size == 1 ? result.first : result
-    end
-
     # Recursively add up all nodes. Use @size for faster, but less
     # reliable answer.
     #
@@ -115,39 +60,73 @@ module Algorithm
       end
     end
 
-    # Selects data which return true for block passed in.
+    # Finds all nodes whose data is exact match to argument or finds node
+    # which return true for block passed in.
+    #
+    # data - Object.
+    #
+    # Examples:
     #
     #   linked_list.select do |data|
     #     data[0] == 'h'
     #   end
     #
-    #   #=> ['head']
+    #   #=> [#<Algorithm::SingleNode:0x007fd51e07e680 @data="head">,
+    #        #<Algorithm::SingleNode:0x007fd51e07e680 @data="hour">]
     #
-    def select
-      [].tap do |arr|
-        each do |data|
-          arr << data if yield(data)
-        end
-      end
-    end
+    #   linked_list.select('hour')
+    #   #=> #<Algorithm::SingleNode:0x007fd51e07e680 @data="hour">
+    #
+    # Returns Array for multiple results, data for single result.
+    #
+    def select(data=nil, &user_blk)
+      blk = user_blk || default_select_blk(data)
 
-    # Selects nodes which return true for block passed in.
+      result = [].tap do |arr|
+        each_node do |node|
+          arr << node if blk.call(node.data)
+        end
+      end
+
+      result.size == 1 ? result.first : result
+    end
+    alias :select_all :select
+    alias :find :select
+    alias :find_all :select
+
+    # Finds first nodes whose data is exact match to argument or finds
+    # first node which return true for block passed in.
     #
-    #   linked_list.select do |data|
+    # data - Object.
+    #
+    # Examples:
+    #
+    #   linked_list.select_one do |data|
     #     data[0] == 'h'
     #   end
     #
-    #   #=> #<Algorithm::SingleNode:0x007fd51e07e680 @data="hours">
+    #   #=> #<Algorithm::SingleNode:0x007fd51e07e680 @data="head">
     #
-    # TODO: return nil or first found node, not array
-    #       return process only once
-    def select_node
-      [].tap do |arr|
+    #   linked_list.select('hour')
+    #   #=> #<Algorithm::SingleNode:0x007fd51e07e680 @data="hour">
+    #
+    # Returns Node if found, else nil.
+    #
+    def select_one(data=nil, &user_blk)
+      blk = user_blk || default_select_blk(data)
+
+      result = [].tap do |arr|
         each_node do |node|
-          arr << node if yield(node.data)
+          if blk.call(node.data)
+            arr << node 
+            break
+          end
         end
       end
+
+      result.size > 0 ? result.first : nil
     end
+    alias :find_one :select_one
 
     # Yields each node with a self incrementing index, starting at 0.
     #
@@ -169,6 +148,15 @@ module Algorithm
     # Returns Array with all the data.
     def to_a
       map { |data| data }
+    end
+
+    private
+
+    # Private: Finder methods use this as criteria to match nodes if
+    # no node is provided.
+    #
+    def default_select_blk(data)
+      proc { |node_data| node_data == data }
     end
   end
 end

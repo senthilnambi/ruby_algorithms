@@ -73,11 +73,9 @@ module Algorithm
 
     def replace(data, position_data)
       # TODO: DRY this
-      position = select_node {|node_data| node_data == position_data}
-      return nil unless position && !position.empty?
+      position = select_one {|node_data| node_data == position_data}
+      return nil unless position
 
-      # TODO: change select to return nil or first node, not array
-      position = position.first
       node = DoubleNode.new(:data => data)
 
       # if position is the first node
@@ -114,11 +112,8 @@ module Algorithm
         return
       end
 
-      position = select_node {|node_data| node_data == position_data}
-      return nil unless position && !position.empty?
-
-      # TODO: select_node returns array
-      position = position.first
+      position = select_one {|node_data| node_data == position_data}
+      return nil unless position
 
       # if position_data is tail, use <<
       position_data = if position.tail
@@ -139,12 +134,9 @@ module Algorithm
         return
       end
 
-      position = select_node {|node_data| node_data == position_data}
+      position = select_one {|node_data| node_data == position_data}
+      return nil unless position
 
-      return nil unless position && !position.empty?
-
-      # TODO: change select to return nil or first node, not array
-      position = position.first
       node = DoubleNode.new(:data => data)
 
       # if position is the first node
@@ -162,7 +154,6 @@ module Algorithm
 
       true
     end
-
   end
 
   class DoubleNode < Node
