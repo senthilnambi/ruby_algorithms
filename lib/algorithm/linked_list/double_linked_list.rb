@@ -69,83 +69,8 @@ module Algorithm
       end
     end
 
-    def insert_before(data, cursor=nil)
-      insert_wrapper(data, cursor) do |node|
-        head = cursor.head
-
-        # before: head -> cursor
-        # after:  head -> node -> cursor
-        head.tail   = node
-        node.head   = head
-        node.tail   = cursor
-        cursor.head = node
-      end
-    end
-
-    def insert_at(data, cursor=nil)
-      insert_wrapper(data, cursor) do |node|
-        head = cursor.head
-        tail = cursor.tail
-
-        # before: head -> cursor
-        # after:  head -> node -> cursor
-        head.tail   = node
-        node.tail   = cursor
-        node.head   = cursor.head
-        cursor.head = node
-      end
-    end
-
-    def insert_at!(data, cursor=nil)
-      insert_wrapper(data, cursor) do |node|
-        head = cursor.head
-        tail = cursor.tail
-
-        # before: head -> cursor -> tail
-        # after:  head -> node -> tail
-        head.tail = node
-        node.tail = cursor.tail
-        tail.head = node
-        node.head = head
-
-        @size -= 1
-      end
-    end
-
-    def insert_after(data, cursor=nil)
-      insert_wrapper(data, cursor) do |node|
-        tail = cursor.tail
-
-        # before: cursor -> tail
-        # after:  cursor -> node -> tail
-        cursor.tail = node
-        node.head   = cursor
-        node.tail   = tail
-        tail.head   = node
-      end
-    end
-
-    def previous
-      @tail.head
-    end
-
     def empty?
       !@head && !@tail
-    end
-
-    private
-
-    def insert_wrapper(data, cursor)
-      unless cursor
-        # add to end of list
-        push(data)
-        return
-      end
-
-      node = DoubleNode.new(:data => data)
-      yield node
-
-      @size += 1
     end
   end
 
@@ -160,6 +85,10 @@ module Algorithm
 
     def head?
       @head.nil?
+    end
+
+    def empty?
+      false
     end
   end
 end
