@@ -139,6 +139,8 @@ module Algorithm
     #
     #   #=> #<Algorithm::SingleNode:0x007fd51e07e680 @data="hours">
     #
+    # TODO: return nil or first found node, not array
+    #       return process only once
     def select_node
       [].tap do |arr|
         each_node do |node|

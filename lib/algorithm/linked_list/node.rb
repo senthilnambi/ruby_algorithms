@@ -5,5 +5,9 @@ module Algorithm
     def head?
       @head.nil?
     end
+
+    def tail?
+      @tail.nil?
+    end
   end
 end
