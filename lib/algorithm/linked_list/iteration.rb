@@ -28,6 +28,33 @@ module Algorithm
       result.size == 1 ? result.first : result
     end
 
+    # Finds nodes whose data is exact match to argument or finds node
+    # which return true for block passed in.
+    #
+    # data - Object.
+    #
+    # Examples:
+    #
+    #   linked_list.find do |data|
+    #     data[0] == 'h'
+    #   end
+    #
+    #   #=> #<Algorithm::SingleNode:0x007fd51e07e680 @data="hours">
+    #
+    #   linked_list.find('head')
+    #   #=> #<Algorithm::SingleNode:0x007fd51e07e680 @data="hours">
+    #
+    # Returns Array for multiple results, data for single result.
+    #
+    def find_node(data=nil, &user_blk)
+      default_blk = proc {|node_data| node_data == data }
+      blk         = user_blk || default_blk
+
+      result = select_node(&blk)
+
+      result.size == 1 ? result.first : result
+    end
+
     # Recursively add up all nodes. Use @size for faster, but less
     # reliable answer.
     #
@@ -100,6 +127,22 @@ module Algorithm
       [].tap do |arr|
         each do |data|
           arr << data if yield(data)
+        end
+      end
+    end
+
+    # Selects nodes which return true for block passed in.
+    #
+    #   linked_list.select do |data|
+    #     data[0] == 'h'
+    #   end
+    #
+    #   #=> #<Algorithm::SingleNode:0x007fd51e07e680 @data="hours">
+    #
+    def select_node
+      [].tap do |arr|
+        each_node do |node|
+          arr << node if yield(node.data)
         end
       end
     end
