@@ -103,8 +103,6 @@ module Algorithm
   end
 
   class SingleNode < Node
-    attr_accessor :data, :head
-
     def initialize(data, node=nil)
       @data = data
       @head = node

@@ -74,10 +74,13 @@ module Algorithm
     def empty?
       !@head && !@tail
     end
+
+    def insert_at(data, position_data)
+    end
   end
 
   class DoubleNode < Node
-    attr_accessor :data, :head, :tail
+    attr_accessor :tail
 
     def initialize(hash)
       @data = hash[:data]
