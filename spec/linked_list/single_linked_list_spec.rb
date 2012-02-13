@@ -92,6 +92,15 @@ describe Algorithm::SingleLinkedList do
     subject.pop
     subject.count.should == 3
   end
+
+  it 'empty? returns false for full list' do
+    subject.empty?.should == false
+  end
+
+  it 'empty? returns true for empty list' do
+    list = described_class.new
+    list.empty?.should == true
+  end
 end
 
 describe Algorithm::SingleNode do

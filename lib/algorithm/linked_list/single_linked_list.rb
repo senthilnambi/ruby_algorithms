@@ -96,6 +96,10 @@ module Algorithm
 
       data if deleted
     end
+
+    def empty?
+      @tail.nil?
+    end
   end
 
   class SingleNode < Node
