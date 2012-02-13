@@ -77,7 +77,6 @@ module Algorithm
 
       node = DoubleNode.new(:data => data)
 
-      # if position is the first node
       head = position.head
       tail = position.tail
 
