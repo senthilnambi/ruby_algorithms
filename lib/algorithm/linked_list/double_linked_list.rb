@@ -35,6 +35,7 @@ module Algorithm
         @head = node
       end
 
+      # node always added to end of list
       @tail = node
 
       self
@@ -44,25 +45,25 @@ module Algorithm
     def pop
       if @head && @tail
 
-        # list has only node
-        if @head == @tail
-          popped = @head
-
-          @head = nil
-          @tail = nil
-          @size -= 1
-
-          return popped.data
-
         # list has multiple nodes
-        else
+        unless @head == @tail
           popped     = @tail
           @tail      = @tail.head
           @tail.tail = nil
+          @size     -= 1
+
+          return popped.data
+        else
+          # list has only node
+          popped = @head
+
+          @head  = nil
+          @tail  = nil
           @size -= 1
 
           return popped.data
         end
+
       else
 
         # list has no nodes
