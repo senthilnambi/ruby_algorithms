@@ -99,6 +99,8 @@ module Algorithm
       # orphan the old node
       position.head = nil
       position.tail = nil
+
+      true
     end
 
     def insert_before(data, position_data=nil)
@@ -157,6 +159,8 @@ module Algorithm
       node.head = head
 
       @size += 1
+
+      true
     end
 
   end

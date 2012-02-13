@@ -182,6 +182,10 @@ describe Algorithm::DoubleLinkedList do
       multiple_nodes.insert_before('new one', 'one')
       multiple_nodes.size.should == 6
     end
+
+    it 'returns true if successful' do
+      multiple_nodes.insert_before('new one', 'one').should == true
+    end
   end
 
   context '#insert_after' do
@@ -222,8 +226,12 @@ describe Algorithm::DoubleLinkedList do
     end
 
     it 'increases @size when adding to full list' do
-      multiple_nodes.insert_before('new one', 'one')
+      multiple_nodes.insert_after('new one', 'one')
       multiple_nodes.size.should == 6
+    end
+
+    it 'returns true if successful' do
+      multiple_nodes.insert_after('new one', 'one').should == true
     end
   end
 
@@ -275,6 +283,10 @@ describe Algorithm::DoubleLinkedList do
     it 'count remains at 5' do
       multiple_nodes.replace('new one', 'one')
       multiple_nodes.count.should == 5
+    end
+
+    it 'returns true if successful' do
+      multiple_nodes.replace('new one', 'one').should == true
     end
   end
 end
