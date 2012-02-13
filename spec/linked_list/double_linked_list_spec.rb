@@ -35,6 +35,10 @@ describe Algorithm::DoubleLinkedList do
     ['five', 'four', 'three', 'two', 'one']
   end
 
+  let(:multiple_node_array_reverse) do
+    ["one", "two", "three", "four", "five"]
+  end
+
   context '#<<' do
     it 'adds to end in empty list' do
       zero_node.push('one')
@@ -44,6 +48,20 @@ describe Algorithm::DoubleLinkedList do
     it 'adds to end in any list' do
       one_node.push('two')
       one_node.to_a.should == ['two', 'one']
+    end
+
+    it 'previous tail points to new tail' do
+      arr = ['one', 'two', 'three', 'four', 'five', 'six']
+
+      multiple_nodes.push('six')
+      multiple_nodes.to_a_reverse.should == arr
+    end
+
+    it 'new node points to old tail' do
+      arr = ['six', 'five', 'four', 'three', 'two', 'one']
+
+      multiple_nodes.push('six')
+      multiple_nodes.to_a.should == arr
     end
 
     it 'aliased to #push' do
@@ -67,12 +85,20 @@ describe Algorithm::DoubleLinkedList do
     end
 
     it 'removes node from list' do
+      arr = ['one', 'two', 'three', 'four']
+
       multiple_nodes.pop
-      multiple_nodes.to_a.should == ['four', 'three', 'two', 'one']
+      multiple_nodes.to_a_reverse.should == arr
     end
 
     it 'returns data of item popped' do
       multiple_nodes.pop.should == 'five'
+    end
+  end
+
+  context '#reverse' do
+    it 'populates array from reverse' do
+      multiple_nodes.to_a_reverse.should == multiple_node_array_reverse
     end
   end
 
@@ -118,6 +144,18 @@ describe Algorithm::DoubleLinkedList do
     it 'has no other heads' do
       multiple_nodes.head.head.should == nil
     end
+
+    it 'points to right tail' do
+      multiple_nodes.head.tail.data.should == 'two'
+    end
+
+    it 'traverses all the way from head to tail' do
+      multiple_nodes.head.data.should                     == 'one'
+      multiple_nodes.head.tail.data.should                == 'two'
+      multiple_nodes.head.tail.tail.data.should           == 'three'
+      multiple_nodes.head.tail.tail.tail.data.should      == 'four'
+      multiple_nodes.head.tail.tail.tail.tail.data.should == 'five'
+    end
   end
 
   context '#tail' do
@@ -133,11 +171,17 @@ describe Algorithm::DoubleLinkedList do
       multiple_nodes.tail.data.should == 'five'
     end
 
+    it 'points to right head' do
+      multiple_nodes.tail.head.data.should == 'four'
+    end
+
     it 'has no other tails' do
       multiple_nodes.tail.tail.should == nil
     end
 
-    it 'traverses all the way to head' do
+    it 'traverses all the way from tail to head' do
+      multiple_nodes.tail.data.should                     == 'five'
+      multiple_nodes.tail.head.data.should                == 'four'
       multiple_nodes.tail.head.head.data.should           == 'three'
       multiple_nodes.tail.head.head.head.data.should      == 'two'
       multiple_nodes.tail.head.head.head.head.data.should == 'one'

@@ -57,9 +57,10 @@ module Algorithm
     def pop
       return nil unless @head && @tail
 
-      old_data   = @tail.data
-      @tail      = @tail.head
-      @head.tail = @tail
+      old_head      = @tail.head
+      old_data      = @tail.data
+      @tail         = @tail.head
+      old_head.tail = nil if old_head
 
       @size -= 1
 
@@ -71,62 +72,90 @@ module Algorithm
     end
 
     def replace(data, position_data)
-      # TODO: DRY this
-      position = select_one {|node_data| node_data == position_data}
-      return nil unless position
+      insert_wrapper(data, position_data) do |position|
+        node, head, tail = set_insert_vars(data, position)
 
-      node = DoubleNode.new(:data => data)
+        # before: head -> position -> tail
+        # after:  head -> node -> tail
+        head.tail = node if head
+        node.tail = tail
+        tail.head = node if tail
+        node.head = head
 
-      head = position.head
-      tail = position.tail
+        # set @tail for list or it will use old tail
+        if position.tail?
+          @tail = node
+        end
 
-      # before: head -> position -> tail
-      # after:  head -> node -> tail
-      head.tail = node if head
-      node.tail = tail
-      tail.head = node if tail
-      node.head = head
+        # orphan the old node
+        position.head = nil
+        position.tail = nil
 
-      # set @tail for list or it will use old tail
-      if position.tail?
-        @tail = node
+        true
       end
-
-      # orphan the old node
-      position.head = nil
-      position.tail = nil
-
-      true
     end
 
     def insert_before(data, position_data=nil)
-      insert_at(data, position_data)
+      insert_wrapper(data, position_data) do |position|
+        node, head, tail = set_insert_vars(data, position)
+
+        # before: head -> position
+        # after:  head -> node -> position
+        head.tail     = node if head
+        node.tail     = position
+        position.head = node
+        node.head     = head
+
+        @size += 1
+
+        true
+      end
     end
 
     def insert_after(data, position_data=nil)
-      # TODO: DRY these
-      unless position_data
-        push(data)
-        return
+      insert_wrapper(data, position_data) do |position|
+
+        # if position_data is tail, set to nil, so insert_before will
+        # use <<
+        #
+        position_data = if position.tail
+          position.tail.data
+        else
+          nil
+        end
+
+        insert_before(data, position_data)
       end
+    end
 
-      position = select_one {|node_data| node_data == position_data}
-      return nil unless position
+    def reverse
+      current_node = @head
 
-      # if position_data is tail, use <<
-      position_data = if position.tail
-        position.tail.data
-      else
-        nil
+      while current_node
+        yield current_node.data
+        current_node = current_node.tail
       end
+    end
 
-      insert_at(data, position_data)
+    def map_reverse
+      [].tap do |arr|
+        reverse do |data|
+          arr << yield(data)
+        end
+      end
+    end
+
+    def to_a_reverse
+      map_reverse {|x| x}
     end
 
     private
 
-    # TODO: same behavior as insert_before. Am I doing it wrong?
-    def insert_at(data, position_data=nil)
+    # Private: operations common to insert_before and replace.
+    #
+    # Returns position node if found.
+    #
+    def insert_wrapper(data, position_data=nil)
       unless position_data
         push(data)
         return
@@ -135,22 +164,24 @@ module Algorithm
       position = select_one {|node_data| node_data == position_data}
       return nil unless position
 
-      node = DoubleNode.new(:data => data)
+      yield position
+    end
 
-      # if position is the first node
-      head = position.head unless position.head?
+    # Private: variables common to insert_before and replace.
+    #
+    # Returns Array.
+    #
+    def set_insert_vars(data, position)
+      node = create_node(data)
+
+      head = position.head
       tail = position.tail
 
-      # before: head -> position
-      # after:  head -> node -> position
-      head.tail = node if head
-      node.tail = position
-      position.head = node
-      node.head = head
+      [node, head, tail]
+    end
 
-      @size += 1
-
-      true
+    def create_node(data)
+      DoubleNode.new(:data => data)
     end
   end
 
