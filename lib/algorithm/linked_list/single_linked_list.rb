@@ -20,7 +20,7 @@ module Algorithm
       @size = 0
     end
 
-    # Adds argument to LinkedList, with reference to previous added.
+    # Adds argument to list, along with link to previous node.
     # Last added is stored in @tail. First added is stored in @head.
     #
     # data - Object.

@@ -20,6 +20,18 @@ module Algorithm
       @size = 0
     end
 
+    # Adds argument to list, along with link to previous node, which
+    # in turn has link to this new node.
+    # Last added is stored in @tail. First added is stored in @head.
+    #
+    # data - Object.
+    #
+    # Examples:
+    #
+    #   list = DoubleLinkedList.new
+    #   list << 'head'
+    #   list << 'tail'
+    #
     def <<(data)
       node = DoubleNode.new(:data => data)
 
@@ -41,6 +53,7 @@ module Algorithm
     end
     alias :push :<<
 
+    # Removes the last node.
     def pop
       return nil unless @head && @tail
 
