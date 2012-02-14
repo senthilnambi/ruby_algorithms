@@ -1,4 +1,6 @@
 module Algorithm
+
+  # Contains Enumerable like methods.
   module Iteration
     # Recursively add up all nodes. Use @size for faster, but less
     # reliable answer.
@@ -37,8 +39,8 @@ module Algorithm
     #     puts data
     #   end
     #
-    #   #=> 'head'
-    #       'tail'
+    #   #=> 'tail'
+    #       'head'
     #
     def each
       each_node { |node| yield node.data }
