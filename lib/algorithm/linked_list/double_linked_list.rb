@@ -80,6 +80,9 @@ module Algorithm
     #
     # data - Object.
     # hash - Hash of options.
+    #   :after   - String of data, after which data is to inserted
+    #   :before  - String of data, before which data is to inserted
+    #   :replace - String of data which is to replaced by data
     #
     # Examples:
     #
