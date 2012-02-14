@@ -34,6 +34,8 @@ module Algorithm
     #   list << 'head'
     #   list << 'tail'
     #
+    # Returns self.
+    #
     def <<(data)
       node = DoubleNode.new(:data => data)
 
@@ -73,12 +75,45 @@ module Algorithm
       !@head && !@tail
     end
 
+    # Insert at a specified position in list. Allows insertion at,
+    # before and after a specified position.
+    #
+    # data - Object.
+    # hash - Hash of options.
+    #
+    # Examples:
+    #
+    #   list.insert('new tail', :after => 'tail')
+    #   #=> true
+    #
+    #   list.insert('new head', :before => 'head')
+    #   #=> true
+    #
+    # :replace removes old node and inserts the new node in the same
+    # position.
+    #
+    #   list.insert('new head', :replace => 'head')
+    #   #=> true
+    #
+    # If no hash is provided, it adds to end of list.
+    #
+    #   list.insert('tail')
+    #   #=> true
+    #
+    # Only one type of insertion is allowed per call.
+    #
+    #   list.insert('new', :before => 'tail', :after => 'head')
+    #   #=> #<RuntimeError: only one type of insertion allowed>
+    #
+    # Returns true if insertion was successful, nil if specified
+    # position was not found.
+    #
     def insert(data, hash={})
       if hash.size == 0
         push(data)
         return
       elsif hash.size > 1
-        raise 'only one insertion allowed'
+        raise 'only one type of insertion allowed'
       end
 
       replace = hash[:replace]
@@ -104,6 +139,7 @@ module Algorithm
 
     private
 
+    # Private: used by #insert to replace old node with new node.
     def insert_at!(data, position)
       node, head, tail = set_insert_vars(data, position)
 
@@ -124,10 +160,13 @@ module Algorithm
       position.tail = nil
     end
 
+    # Private: used by #insert to add new node in specified position.
     def insert_at(data, position)
       node, head, tail = set_insert_vars(data, position)
 
-      head.tail     = node if head
+      # before: head -> position
+      # after:  head -> node -> position
+      head.tail     = node
       node.tail     = position
       position.head = node
       node.head     = head
@@ -135,21 +174,17 @@ module Algorithm
       @size += 1
     end
 
-    # Private: variables common to insert_at and replace.
+    # Private: variables common to #insert_at and #insert_at!.
     #
     # Returns Array.
     #
     def set_insert_vars(data, position)
-      node = create_node(data)
+      node = DoubleNode.new(:data => data)
 
       head = position.head
       tail = position.tail
 
       [node, head, tail]
-    end
-
-    def create_node(data)
-      DoubleNode.new(:data => data)
     end
   end
 
