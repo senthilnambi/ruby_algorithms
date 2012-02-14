@@ -73,82 +73,69 @@ module Algorithm
       !@head && !@tail
     end
 
-    def replace(data, position_data)
-      insert_wrapper(data, position_data) do |position|
-        node, head, tail = set_insert_vars(data, position)
-
-        # before: head -> position -> tail
-        # after:  head -> node -> tail
-        head.tail = node if head
-        node.tail = tail
-        tail.head = node if tail
-        node.head = head
-
-        # set @tail for list or it will use old tail
-        if position.tail?
-          @tail = node
-        end
-
-        # orphan the old node
-        position.head = nil
-        position.tail = nil
-
-        true
+    def insert(data, hash={})
+      if hash.size == 0
+        push(data)
+        return
+      elsif hash.size > 1
+        raise 'only one insertion allowed'
       end
-    end
 
-    def insert_before(data, position_data=nil)
-      insert_wrapper(data, position_data) do |position|
-        node, head, tail = set_insert_vars(data, position)
+      replace = hash[:replace]
+      before  = hash[:before]
+      after   = hash[:after]
 
-        # before: head -> position
-        # after:  head -> node -> position
-        head.tail     = node if head
-        node.tail     = position
-        position.head = node
-        node.head     = head
+      # do only one operation per insert
+      cursor_data = replace || after || before
 
-        @size += 1
+      position = select_one {|node_data| node_data == cursor_data}
+      return nil unless position
 
-        true
+      if replace
+        insert_at!(data, position)
+      elsif after
+        insert_at(data, position.tail)
+      elsif before
+        insert_at(data, position)
       end
-    end
 
-    def insert_after(data, position_data=nil)
-      insert_wrapper(data, position_data) do |position|
-
-        # if position_data is tail, set to nil, so insert_before will
-        # use <<
-        #
-        position_data = if position.tail
-          position.tail.data
-        else
-          nil
-        end
-
-        insert_before(data, position_data)
-      end
+      true
     end
 
     private
 
-    # Private: operations common to insert_before and replace.
-    #
-    # Returns position node if found.
-    #
-    def insert_wrapper(data, position_data=nil)
-      unless position_data
-        push(data)
-        return
+    def insert_at!(data, position)
+      node, head, tail = set_insert_vars(data, position)
+
+      # before: head -> position -> tail
+      # after:  head -> node -> tail
+      head.tail = node if head
+      node.tail = tail
+      tail.head = node if tail
+      node.head = head
+
+      # set @tail for list or it will use old tail
+      if position.tail?
+        @tail = node
       end
 
-      position = select_one {|node_data| node_data == position_data}
-      return nil unless position
-
-      yield position
+      # orphan the old node
+      position.head = nil
+      position.tail = nil
     end
 
-    # Private: variables common to insert_before and replace.
+    def insert_at(data, position)
+      node, head, tail = set_insert_vars(data, position)
+
+      head.tail     = node if head
+      node.tail     = position
+      position.head = node
+      node.head     = head
+
+      @size += 1
+    end
+
+    # Private: variables common to insert_at and replace.
     #
     # Returns Array.
     #

@@ -188,10 +188,10 @@ describe Algorithm::DoubleLinkedList do
     end
   end
 
-  context '#insert_before' do
+  context '#insert' do
     context 'zero nodes' do
       before do
-        zero_node.insert_before('tail')
+        zero_node.insert('tail')
       end
 
       it 'adds to end of list if position' do
@@ -203,140 +203,102 @@ describe Algorithm::DoubleLinkedList do
       end
     end
 
-    it 'inserts in the right position' do
-      arr = ['five', 'four', 'three', 'new two', 'two', 'one']
+    context '#replace' do
+      it 'replaces in the middle' do
+        arr = ['five', 'four', 'three', 'new two', 'one']
 
-      multiple_nodes.insert_before('new two', 'three')
-      multiple_nodes.to_a.should == arr
-    end
-
-    it 'does nothing if position is not found' do
-      multiple_nodes.insert_before('new one', 'imaginary')
-      multiple_nodes.to_a.should ==  multiple_node_array
-    end
-
-    it 'returns nil if position not found' do
-      multiple_nodes.insert_before('new two', 'imaginary').should == nil
-    end
-
-    it 'inserts before head' do
-      arr = ['five', 'four', 'three', 'two', 'one', 'new one']
-
-      multiple_nodes.insert_before('new one', 'one')
-      multiple_nodes.to_a.should == arr
-    end
-
-    it 'increases @size when adding to full list' do
-      multiple_nodes.insert_before('new one', 'one')
-      multiple_nodes.size.should == 6
-    end
-
-    it 'returns true if successful' do
-      multiple_nodes.insert_before('new one', 'one').should == true
-    end
-  end
-
-  context '#insert_after' do
-    context 'zero nodes' do
-      before do
-        zero_node.insert_after('tail')
+        multiple_nodes.insert('new two', :replace => 'two')
+        multiple_nodes.to_a.should == arr
       end
 
-      it 'adds to end of list if position' do
-        zero_node.to_a.should == ['tail']
+      it 'replaces head for multiple nodes' do
+        arr = ['five', 'four', 'three', 'two', 'new one']
+
+        multiple_nodes.insert('new one', :replace => 'one')
+        multiple_nodes.to_a.should == arr
       end
 
-      it 'increases @size when adding to empty list' do
-        zero_node.size.should == 1
+      it 'replaces tail for one node' do
+        one_node.insert('new one', :replace => 'one')
+        one_node.to_a.should == ['new one']
+      end
+
+      it 'replaces tail for two nodes' do
+        two_nodes.insert('new two', :replace => 'two')
+        two_nodes.to_a.should == ['new two', 'one']
+      end
+
+      it 'replaces tail for multiple nodes' do
+        arr = ['new five', 'four', 'three', 'two', 'one']
+
+        multiple_nodes.insert('new five', :replace => 'five')
+        multiple_nodes.to_a.should == arr
+      end
+
+      it 'does nothing if position is not found' do
+        multiple_nodes.insert('new two', :replace => 'fake')
+        multiple_nodes.to_a.should ==  multiple_node_array
+      end
+
+      it 'returns nil if position not found' do
+        multiple_nodes.insert('new two', :replace => 'fake').should == nil
+      end
+
+      it 'does nothing to @size' do
+        multiple_nodes.insert('new one', :replace => 'one')
+        multiple_nodes.size.should == 5
+      end
+
+      it 'count remains at 5' do
+        multiple_nodes.insert('new one', :replace => 'one')
+        multiple_nodes.count.should == 5
+      end
+
+      it 'returns true if successful' do
+        multiple_nodes.insert('new one', :replace => 'one').should == true
+      end
+
+      it 'throws error if more than one insertion' do
+        doing do
+          multiple_nodes.insert('fake', :before => 'one', :after => 'two')
+        end.should raise_error('only one insertion allowed')
       end
     end
 
-    it 'inserts in the right position' do
-      arr = ['five', 'four', 'three', 'new two', 'two', 'one']
+    context '#before' do
+      it 'inserts in the right position' do
+        arr = ['five', 'four', 'three', 'new two', 'two', 'one']
 
-      multiple_nodes.insert_after('new two', 'two')
-      multiple_nodes.to_a.should == arr
+        multiple_nodes.insert('new two', :before => 'three')
+        multiple_nodes.to_a.should == arr
+      end
+
+      it 'does nothing if position is not found' do
+        multiple_nodes.insert('new two', :before => 'fake')
+        multiple_nodes.to_a.should ==  multiple_node_array
+      end
+
+      it 'returns nil if position not found' do
+        multiple_nodes.insert('new two', :before => 'fake').should == nil
+      end
     end
 
-    it 'does nothing if position is not found' do
-      multiple_nodes.insert_after('new two', 'imaginary')
-      multiple_nodes.to_a.should == multiple_node_array
-    end
+    context '#after' do
+      it 'inserts in the right position' do
+        arr = ['five', 'four', 'three', 'new two', 'two', 'one']
 
-    it 'returns nil if position not found' do
-      multiple_nodes.insert_after('new two', 'imaginary').should == nil
-    end
+        multiple_nodes.insert('new two', :after => 'two')
+        multiple_nodes.to_a.should == arr
+      end
 
-    it 'inserts at tail' do
-      arr = ['new five', 'five', 'four', 'three', 'two', 'one']
+      it 'does nothing if position is not found' do
+        multiple_nodes.insert('new two', :after => 'fake')
+        multiple_nodes.to_a.should ==  multiple_node_array
+      end
 
-      multiple_nodes.insert_after('new five', 'five')
-      multiple_nodes.to_a.should == arr
-    end
-
-    it 'increases @size when adding to full list' do
-      multiple_nodes.insert_after('new one', 'one')
-      multiple_nodes.size.should == 6
-    end
-
-    it 'returns true if successful' do
-      multiple_nodes.insert_after('new one', 'one').should == true
-    end
-  end
-
-  context '#replace' do
-    it 'replaces tail when only one node' do
-      one_node.replace('new one', 'one')
-      one_node.to_a.should == ['new one']
-    end
-
-    it 'replaces tail when only two nodes' do
-      two_nodes.replace('new two', 'two')
-      two_nodes.to_a.should == ['new two', 'one']
-    end
-
-    it 'does nothing if position is not found' do
-      multiple_nodes.replace('new two', 'imaginary')
-      multiple_nodes.to_a.should == multiple_node_array
-    end
-
-    it 'returns nil if position not found' do
-      multiple_nodes.replace('new two', 'imaginary').should == nil
-    end
-
-    it 'replace in the right position' do
-      arr = ['five', 'four', 'three', 'new two', 'one']
-
-      multiple_nodes.replace('new two', 'two')
-      multiple_nodes.to_a.should == arr
-    end
-
-    it 'replaces head' do
-      arr = ['five', 'four', 'three', 'two', 'new one']
-
-      multiple_nodes.replace('new one', 'one')
-      multiple_nodes.to_a.should == arr
-    end
-
-    it 'replaces tail' do
-      arr = ['new five', 'four', 'three', 'two', 'one']
-
-      multiple_nodes.replace('new five', 'five')
-      multiple_nodes.to_a.should == arr
-    end
-
-    it 'does nothing to @size' do
-      multiple_nodes.replace('new one', 'one')
-      multiple_nodes.size.should == 5
-    end
-
-    it 'count remains at 5' do
-      multiple_nodes.replace('new one', 'one')
-      multiple_nodes.count.should == 5
-    end
-
-    it 'returns true if successful' do
-      multiple_nodes.replace('new one', 'one').should == true
+      it 'returns nil if position not found' do
+        multiple_nodes.insert('new two', :after => 'fake').should == nil
+      end
     end
   end
 end
