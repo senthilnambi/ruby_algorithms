@@ -259,9 +259,9 @@ describe Algorithm::DoubleLinkedList do
       end
 
       it 'throws error if more than one insertion' do
-        doing do
+        expect do
           multiple_nodes.insert('fake', :before => 'one', :after => 'two')
-        end.should raise_error('only one type of insertion allowed')
+        end.to raise_error('only one type of insertion allowed')
       end
     end
 
