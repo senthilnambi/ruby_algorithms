@@ -58,6 +58,9 @@ module Algorithm
     alias :push :<<
 
     # Removes the last node.
+    #
+    # Returns last node node if successful, nil if list is empty.
+    #
     def pop
       return nil unless @head && @tail
 
@@ -69,10 +72,6 @@ module Algorithm
       @size -= 1
 
       old_data
-    end
-
-    def empty?
-      !@head && !@tail
     end
 
     # Insert at a specified position in list. Allows insertion at,
@@ -87,21 +86,16 @@ module Algorithm
     # Examples:
     #
     #   list.insert('new tail', :after => 'tail')
-    #   #=> true
-    #
     #   list.insert('new head', :before => 'head')
-    #   #=> true
     #
     # :replace removes old node and inserts the new node in the same
     # position.
     #
     #   list.insert('new head', :replace => 'head')
-    #   #=> true
     #
     # If no hash is provided, it adds to end of list.
     #
     #   list.insert('tail')
-    #   #=> true
     #
     # Only one type of insertion is allowed per call.
     #
@@ -138,6 +132,10 @@ module Algorithm
       end
 
       true
+    end
+
+    def empty?
+      !@head && !@tail
     end
 
     private
