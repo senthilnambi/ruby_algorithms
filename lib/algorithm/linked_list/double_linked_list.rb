@@ -61,10 +61,10 @@ module Algorithm
     def pop
       return nil unless @head && @tail
 
-      old_head      = @tail.head
-      old_data      = @tail.data
-      @tail         = @tail.head
-      old_head.tail = nil if old_head
+      old_head   = @tail.head
+      old_data   = @tail.data
+      @tail      = @tail.head
+      @tail.tail = nil if @tail
 
       @size -= 1
 

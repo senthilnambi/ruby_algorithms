@@ -98,7 +98,7 @@ module Algorithm
     end
 
     def empty?
-      @tail.nil?
+      !@tail
     end
   end
 
