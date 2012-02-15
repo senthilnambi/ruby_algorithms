@@ -54,7 +54,6 @@ This library was developed on a Macbook Pro. Software/methodology include:
   * ruby-1.9.3
   * git
   * rspec2
-  * Readme driven development (see Spec for an ideal api, Readme for currently implemented )
   * Behavior driven development
 
 [1]: http://www.iterm2.com/#/section/home
