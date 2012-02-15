@@ -90,15 +90,12 @@ module Algorithm
     #
     # :replace removes old node and inserts the new node in the same
     # position.
-    #
     #   list.insert('new head', :replace => 'head')
     #
     # If no hash is provided, it adds to end of list.
-    #
     #   list.insert('tail')
     #
     # Only one type of insertion is allowed per call.
-    #
     #   list.insert('new', :before => 'tail', :after => 'head')
     #   #=> #<RuntimeError: only one type of insertion allowed>
     #
