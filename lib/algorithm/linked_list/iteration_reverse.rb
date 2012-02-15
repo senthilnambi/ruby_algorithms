@@ -3,6 +3,7 @@ module Algorithm
 
     # Yields each node in reverse.
     #
+    # Examples:
     #   linked_list.each do |data|
     #     puts data
     #   end
@@ -21,6 +22,7 @@ module Algorithm
 
     # Yields each node in reverse and saves the output in an Array.
     #
+    # Examples:
     #   linked_list.map do |node|
     #     data.size
     #   end
@@ -35,7 +37,7 @@ module Algorithm
       end
     end
 
-    # Returns Array with all the data in reverse.
+    # Returns: Array with all the data in reverse.
     def to_a_reverse
       map_reverse {|x| x}
     end

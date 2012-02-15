@@ -23,10 +23,10 @@ module Algorithm
     # Adds argument to list, along with link to previous node.
     # Last added is stored in @tail. First added is stored in @head.
     #
-    # data - Object.
+    # Accepts:
+    #   data - Object.
     #
     # Examples:
-    #
     #   linked_list = LinkedList.new
     #   linked_list << 'head'
     #   linked_list << 'tail'
@@ -41,6 +41,9 @@ module Algorithm
     alias :push :<<
 
     # Removes the last node.
+    #
+    # Returns: popped node data.
+    #
     def pop
       popped = @tail
       @tail  = @tail.head # remove tail

@@ -2,6 +2,7 @@ module Algorithm
 
   # Contains Enumerable like methods.
   module Iteration
+
     # Recursively add up all nodes. Use @size for faster, but less
     # reliable answer.
     #
@@ -17,6 +18,7 @@ module Algorithm
     # Recursively goes through the nodes and yields them individually.
     # Basis for all of the Enumerable like methods in the class.
     #
+    # Examples:
     #   linked_list.each_node do |node|
     #     puts node.data
     #   end
@@ -35,6 +37,7 @@ module Algorithm
 
     # Yields each node.
     #
+    # Examples:
     #   linked_list.each do |data|
     #     puts data
     #   end
@@ -48,6 +51,7 @@ module Algorithm
 
     # Yields each node and saves the output in an Array.
     #
+    # Examples:
     #   linked_list.map do |node|
     #     data.size
     #   end
@@ -65,10 +69,10 @@ module Algorithm
     # Finds all nodes whose data is exact match to argument or finds node
     # which return true for block passed in.
     #
-    # data - Object.
+    # Accepts:
+    #   data - Object.
     #
     # Examples:
-    #
     #   linked_list.select do |data|
     #     data[0] == 'h'
     #   end
@@ -79,7 +83,9 @@ module Algorithm
     #   linked_list.select('hour')
     #   #=> #<Algorithm::SingleNode:0x007fd51e07e680 @data="hour">
     #
-    # Returns Array for multiple results, data for single result.
+    # Returns:
+    #   Array for multiple results,
+    #   String for single result.
     #
     def select(data=nil, &user_blk)
       blk = user_blk || default_select_blk(data)
@@ -99,10 +105,10 @@ module Algorithm
     # Finds first nodes whose data is exact match to argument or finds
     # first node which return true for block passed in.
     #
-    # data - Object.
+    # Accepts:
+    #   data - Object.
     #
     # Examples:
-    #
     #   linked_list.select_one do |data|
     #     data[0] == 'h'
     #   end
@@ -112,7 +118,9 @@ module Algorithm
     #   linked_list.select('hour')
     #   #=> #<Algorithm::SingleNode:0x007fd51e07e680 @data="hour">
     #
-    # Returns Node if found, else nil.
+    # Returns:
+    #   Node if found,
+    #   else nil.
     #
     def select_one(data=nil, &user_blk)
       blk = user_blk || default_select_blk(data)
@@ -132,6 +140,7 @@ module Algorithm
 
     # Yields each node with a self incrementing index, starting at 0.
     #
+    # Examples:
     #   arr = []
     #   linked_list.with_index do |data, index|
     #     arr << [data, index]
@@ -147,7 +156,7 @@ module Algorithm
       end
     end
 
-    # Returns Array with all the data.
+    # Returns: Array with all the data.
     def to_a
       map { |data| data }
     end

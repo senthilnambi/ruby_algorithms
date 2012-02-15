@@ -26,15 +26,13 @@ module Algorithm
     # in turn has link to this new node.
     # Last added is stored in @tail. First added is stored in @head.
     #
-    # data - Object.
+    # Accepts:
+    #   data - Object.
     #
     # Examples:
-    #
     #   list = DoubleLinkedList.new
     #   list << 'head'
     #   list << 'tail'
-    #
-    # Returns self.
     #
     def <<(data)
       node = DoubleNode.new(:data => data)
@@ -59,7 +57,9 @@ module Algorithm
 
     # Removes the last node.
     #
-    # Returns last node node if successful, nil if list is empty.
+    # Returns:
+    #   last node node if successful,
+    #   nil if list is empty.
     #
     def pop
       return nil unless @head && @tail
@@ -77,14 +77,14 @@ module Algorithm
     # Insert at a specified position in list. Allows insertion at,
     # before and after a specified position.
     #
-    # data - Object.
-    # hash - Hash of options.
-    #   :after   - String of data, after which data is to inserted
-    #   :before  - String of data, before which data is to inserted
-    #   :replace - String of data which is to replaced by data
+    # Accepts:
+    #   data - Object.
+    #   hash - Hash of options.
+    #     :after   - String of data, after which data is to inserted
+    #     :before  - String of data, before which data is to inserted
+    #     :replace - String of data which is to replaced by data
     #
     # Examples:
-    #
     #   list.insert('new tail', :after => 'tail')
     #   list.insert('new head', :before => 'head')
     #
@@ -102,8 +102,9 @@ module Algorithm
     #   list.insert('new', :before => 'tail', :after => 'head')
     #   #=> #<RuntimeError: only one type of insertion allowed>
     #
-    # Returns true if insertion was successful, nil if specified
-    # position was not found.
+    # Returns:
+    #   true if insertion was successful,
+    #   nil if specified position was not found.
     #
     def insert(data, hash={})
       if hash.size == 0
@@ -140,7 +141,7 @@ module Algorithm
 
     private
 
-    # Private: used by #insert to replace old node with new node.
+    # Private: Used by #insert to replace old node with new node.
     def insert_at!(data, position)
       node, head, tail = set_insert_vars(data, position)
 
@@ -161,7 +162,7 @@ module Algorithm
       position.tail = nil
     end
 
-    # Private: used by #insert to add new node in specified position.
+    # Private: Used by #insert to add new node in specified position.
     def insert_at(data, position)
       node, head, tail = set_insert_vars(data, position)
 
@@ -175,9 +176,9 @@ module Algorithm
       @size += 1
     end
 
-    # Private: variables common to #insert_at and #insert_at!.
+    # Private: Variables common to #insert_at and #insert_at!.
     #
-    # Returns Array.
+    # Returns: Array.
     #
     def set_insert_vars(data, position)
       node = DoubleNode.new(:data => data)
