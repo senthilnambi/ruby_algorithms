@@ -58,7 +58,7 @@ module Algorithm
     # Removes the last node.
     #
     # Returns:
-    #   last node node if successful,
+    #   last node data if successful,
     #   nil if list is empty.
     #
     def pop

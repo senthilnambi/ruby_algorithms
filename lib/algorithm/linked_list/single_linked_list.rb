@@ -42,9 +42,13 @@ module Algorithm
 
     # Removes the last node.
     #
-    # Returns: popped node data.
+    # Returns:
+    #   last node data if successful,
+    #   nil if list is empty.
     #
     def pop
+      return nil unless @tail
+
       popped = @tail
       @tail  = @tail.head # remove tail
       @size -= 1
