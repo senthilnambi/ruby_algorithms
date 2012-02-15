@@ -1,12 +1,19 @@
 # Ruby Algorithms
 
-'Mastering Algorithms with C' by Kyle Loudon ported to Ruby.
+**ALPHA** This repository is for my learning purposes only.
+
+'Mastering Algorithms with C' by Kyle Loudon ported to Ruby and other common algorithms.
 
 # Implemented
 
   1. LinkedList
     1. Single
     1. Double
+  1. Search
+    1. Binary
+      1. Iterative
+      1. Recurisve
+    1. Naive String
 
 ## Source
 
